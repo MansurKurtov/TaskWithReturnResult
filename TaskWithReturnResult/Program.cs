@@ -8,10 +8,9 @@ namespace TaskWithReturnResult
     /// </summary>
     class Program
     {
-        private static IList<Rectangle> _rectangles;
         static void Main(string[] args)
         {
-            _rectangles = new List<Rectangle>()
+            var _rectangles = new List<Rectangle>()
             {
                 new Rectangle(10,15),
                 new Rectangle(6,14),
@@ -26,7 +25,7 @@ namespace TaskWithReturnResult
             };
 
 
-            var task = new Task<Rectangle>(() => GetMaxPeremetrRect());
+            var task = new Task<Rectangle>(() => GetMaxPeremetrRect(_rectangles));
             task.Start();
             task.Wait();
             System.Console.WriteLine(task.Result.Peremetr());
@@ -34,13 +33,13 @@ namespace TaskWithReturnResult
 
         }
 
-        private static Rectangle GetMaxPeremetrRect()
+        private static Rectangle GetMaxPeremetrRect(IList<Rectangle> rectangles)
         {
-            if (_rectangles.Count == 0)
+            if (rectangles.Count == 0)
                 return default;
 
-            var result = _rectangles[0];
-            foreach (var item in _rectangles)
+            var result = rectangles[0];
+            foreach (var item in rectangles)
             {
                 if (result.Peremetr() < item.Peremetr())
                     result = item;
